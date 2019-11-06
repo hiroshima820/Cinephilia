@@ -1,0 +1,18 @@
+<h1>SEARCH RESULTS FOR "<%= @search_term %>"</h1>
+
+<div>
+  <% if @movie_results.blank? %>
+    <p>"<%= @search_term %>"と一致する情報が見つかりませんでした</p>
+  <% else %>
+    <table border="1">
+      <% @movie_results.each do |movie| %>
+        <tr>
+          <td><%= image_tag("https://image.tmdb.org/t/p/w200#{movie["poster_path"]}", :alt => 'poster') %></td>
+          <td><%= link_to movie['title'], action: 'show', id: "#{movie["id"]}" %></td>
+          <td><%= movie['release_date'] %></td>
+          <td><%= movie['overview'] %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>
