@@ -78,7 +78,7 @@ gem 'cocoon'
 
 gem "font-awesome-rails"
 
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '~> 3.4.1'
 
 gem 'pry-byebug', group: :development
 
