@@ -83,3 +83,5 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'pry-byebug', group: :development
 
 gem 'httparty', '0.13.5'
+
+gem 'rails_admin'

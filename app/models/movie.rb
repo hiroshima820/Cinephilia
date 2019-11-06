@@ -26,10 +26,24 @@ class Movie < ApplicationRecord
     get("", query: { } ) #パラメタなし
   end
 
-  # 指定の映画のクレジットを取得
+  # 指定のクレジットを取得
   # https://developers.themoviedb.org/3/movies/get-movie-creditsを参照
   def self.credits id
-    base_uri "https://api.themoviedb.org/3/genre/movie/#{id}/credits"
+    base_uri "https://api.themoviedb.org/3/movie/#{id}/credits"
+    get("", query: { } ) #パラメタなし
+  end
+
+  # 指定のパーソンのタグイメージを取得
+  # https://developers.themoviedb.org/3/people/get-tagged-imagesを参照
+  def self.tagged_images id
+    base_uri "https://api.themoviedb.org/3/person/#{id}/tagged_images"
+    get("", query: { } ) #パラメタなし
+  end
+
+  # 指定のクレジットの詳細情報を取得
+  # https://developers.themoviedb.org/3/movies/get-credit-detailsを参照
+  def self.credit_details id
+    base_uri "https://api.themoviedb.org/3/credit/#{id}"
     get("", query: { } ) #パラメタなし
   end
 

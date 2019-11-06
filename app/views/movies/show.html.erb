@@ -1,31 +1,57 @@
-<h1><%= @movie_info['title'] %></h1>
+<p><strong><%= @movie_info['title'] %></p>
 
-<p><strong>上映日：</strong><%= @movie_info['release_date'] %></p>
 
-<p><strong>上映時間：</strong><%= @movie_info['runtime'] %>分</p>
+<%= image_tag("https://image.tmdb.org/t/p/w200#{@movie_info['poster_path']}", :alt => 'poster') %>
+<div>
+    <p><strong>上映日：</strong><%= @movie_info['release_date'] %></p>
 
-<p>
-    <strong>ジャンル：</strong>
-    <% @movie_info['genres'].each do |genre| %>
-        <% if genre == @movie_info['genres'].last %>
-            <span><%= genre['name'] %></span>
-        <% else %>
-            <span><%= genre['name'] %>、</span>
+    <p><strong>上映時間：</strong><%= @movie_info['runtime'] %>分</p>
+
+    <p>
+        <strong>ジャンル：</strong>
+        <% @movie_info['genres'].each do |genre| %>
+            <% if genre == @movie_info['genres'].last %>
+                <span><%= genre['name'] %></span>
+            <% else %>
+                <span><%= genre['name'] %>、</span>
+            <% end %>
         <% end %>
-    <% end %>
-</p>
+    </p>
+</div>
 
 <p><strong>ストーリー：</strong><%= @movie_info['overview'] %></p>
+<div>
+    <p>
+        <strong>監督：</strong>
+        <% @directors.each do |director| %>
+            <% if director == @directors.last %>
+                <span><%= link_to director['name'], person_path(director['id'].to_i) %></span>
+            <% else %>
+                <span><%= link_to director['name'], person_path(director['id'].to_i) %>、</span>
+            <% end %>
 
-<%= image_tag("https://image.tmdb.org/t/p/original#{@movie_info['poster_path']}", :alt => 'poster', :size => '250x375') %>
-
-<p>
-    <strong>出演者：</strong>
-    <% @movie_info['genres'].each do |genre| %>
-        <% if genre == @movie_info['genres'].last %>
-            <span><%= genre['name'] %></span>
-        <% else %>
-            <span><%= genre['name'] %>、</span>
         <% end %>
-    <% end %>
-</p>
+    </p>
+
+    <p>
+        <strong>脚本：</strong>
+        <% @writers.each do |writer| %>
+            <% if writer == @writers.last %>
+                <span><%= writer['name'] %></span>
+            <% else %>
+                <span><%= writer['name'] %>、</span>
+            <% end %>
+        <% end %>
+    </p>
+
+    <p>
+        <strong>出演者：</strong>
+        <% @credits['cast'].each do |cast| %>
+            <% if cast == @credits['cast'].last %>
+                <span><%= cast['name'] %></span>
+            <% else %>
+                <span><%= cast['name'] %>、</span>
+            <% end %>
+        <% end %>
+    </p>
+</div>
