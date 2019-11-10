@@ -7,24 +7,25 @@ class MoviesController < ApplicationController
   def search
   	@search_term = params[:looking_for]
   	@movie_results = Movie.search(@search_term)["results"]
-
   end
 
   def show
   	@movie_info = Movie.details(params[:id])
-  	@credits = Movie.credits(params[:id])
+    @videos = Movie.videos(params[:id])['results']
+  	@crews = Movie.credits(params[:id])['crew']
     @directors = []
-    @credits['crew'].each do |crew|
+    @writers = []
+    @screenplays = []
+    @crews.each do |crew|
       if crew['job'] == "Director"
         @directors << crew
-      end
-    end
-    @writers = []
-    @credits['crew'].each do |crew|
-      if crew['job'] == "Writer"
+      elsif crew['job'] == "Writer"
         @writers << crew
+      elsif crew['job'] == "Screenplay"
+        @screenplays << crew
       end
     end
+    @casts = Movie.credits(params[:id])['cast']
 
     # @genres = Movie.genres()
     # @credit_details = Movie.credit_details(@credits["cast"][0]["credit_id"])
