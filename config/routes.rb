@@ -16,5 +16,7 @@ Rails.application.routes.draw do
   get 'movies/show/:id' => 'movies#show', as: 'movie_show'
   get 'genres/:id' => 'genres#show', as: 'genre'
   get 'people/:id' => 'people#show', as: 'person'
+
+  get 'watcheds/new'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
