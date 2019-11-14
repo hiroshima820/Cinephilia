@@ -4,4 +4,7 @@
 <p><strong>E-MAIL</strong></p>
 <p><%= @user.email %></p>
 
-<%= link_to "EDIT PAGE", edit_user_registration_path %>
+<% if @user.id = current_user.id %>
+    <%= link_to "EDIT INFOMATION", edit_user_path(current_user.id) %><br>
+    <%= link_to 'CLOSE MY ACCOUNT?', user_path(current_user.id), method: :delete, data: { confirm: 'Are you sure?' }%>
+<% end %>

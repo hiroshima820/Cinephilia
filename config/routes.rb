@@ -11,12 +11,23 @@ Rails.application.routes.draw do
   }
   root to: "homes#top"
   get 'homes/about'
-  resources :users, only: [:index, :show, :edit]
+  resources :users, only: [:show, :edit, :update, :destroy]
   get 'movies/search'
-  get 'movies/show/:id' => 'movies#show', as: 'movie_show'
+  resources :movies, only: [:show] do
+    resource :watcheds, only: [:new, :create, :edit, :update, :destroy]
+    resource :checks, only: [:create, :update, :destroy]
+  end
+
   get 'genres/:id' => 'genres#show', as: 'genre'
   get 'people/:id' => 'people#show', as: 'person'
 
-  get 'watcheds/new'
+  
+
+  namespace :admins do
+    root to: "homes#top"
+    get 'homes/about'
+    resources :users, only: [:index, :show, :destroy]
+  end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

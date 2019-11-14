@@ -21,9 +21,9 @@
         <%= link_to "LOG OUT", destroy_user_session_path, method: :delete %>
         <p>MY CALENDAR</p>
       <% elsif admin_signed_in? %>
-        <%= link_to "TOP", root_path %>
-        <%= link_to "ABOUT", homes_about_path %>
-        <%= link_to "USERS", users_path %>
+        <%= link_to "TOP", admins_root_path %>
+        <%= link_to "ABOUT", admins_homes_about_path %>
+        <%= link_to "USERS", admins_users_path %>
         <%= link_to "LOG OUT", destroy_admin_session_path, method: :delete %>
         <p>ADD MOVIES</p>
       <% else %>
@@ -38,7 +38,7 @@
       <div>
         <%= form_tag(movies_search_path, method: :get) do %>
           <%= search_field_tag :looking_for, nil, placeholder: 'Movie titles…' %>
-          <%= submit_tag '検索' %>
+          <%= submit_tag 'SEARCH' %>
         <% end %>
       </div>
     </header>

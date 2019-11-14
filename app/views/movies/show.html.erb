@@ -1,12 +1,27 @@
 <p><strong><%= @movie_info['title'] %></p>
 
 
-<%= image_tag("https://image.tmdb.org/t/p/w200#{@movie_info['poster_path']}", :alt => 'poster') %>
+<%= image_tag "https://image.tmdb.org/t/p/w200#{@movie_info['poster_path']}",  alt: "poster" %>
+<div>
+    <% if @watched.blank? %>
+        <%= link_to "WATCHED", new_movie_watcheds_path(@movie_info["id"]) %>
+    <% else %>
+        <%= link_to @watched.rate, edit_movie_watcheds_path(@movie_info["id"]) %>
+    <% end %>
+</div>
+<div>
+    <% if @check.blank? %>
+        <%= link_to "CHECK CREATE", movie_checks_path(@movie_info["id"]), method: :post %>
+    <% elsif @check.prepare.blank? %>
+        <%= link_to "CHECK UPDATE", movie_checks_path(@movie_info["id"]), method: :patch %>
+    <% else %>
+        <%= link_to "CHECK DELETE", movie_checks_path(@movie_info["id"]), method: :delete %>
+    <% end %>
+</div>
+
 <div>
     <p><strong>RELEASE：</strong><%= @movie_info['release_date'] %></p>
-
     <p><strong>RUNNING TIME：</strong><%= @movie_info['runtime'] %>分</p>
-
     <p>
         <strong>GENRE：</strong>
         <% @movie_info['genres'].each do |genre| %>
@@ -19,9 +34,9 @@
 <% end %>
 <% if @videos.present? %>
     <p><strong>VIDEOS</strong></p>
-        <% @videos.each do |video| %>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= video["key"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <% end %>
+    <% @videos.each do |video| %>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= video["key"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% end %>
 <% end %>
 <div>
     <p>
