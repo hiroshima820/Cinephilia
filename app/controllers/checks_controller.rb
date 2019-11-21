@@ -18,8 +18,4 @@ class ChecksController < ApplicationController
     redirect_to movie_path(params[:movie_id])
   end
 
-  private
-  def check_update
-
-  end
 end

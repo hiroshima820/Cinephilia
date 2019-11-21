@@ -2,6 +2,16 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
   def show
     @user = User.find(params[:id])
+    @watcheds = @user.watcheds
+    @watched_movie_ids = []
+    @watcheds.each do |watched|
+      @watched_movie_ids << watched.tmdb_movie_id
+    end
+    @checks = @user.checks
+    @check_movie_ids = []
+    @checks.each do |check|
+      @check_movie_ids << check.tmdb_movie_id
+    end
   end
 
   def edit
@@ -11,10 +21,10 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
 		if	@user.update(user_params)
-			flash[:notice] = "successfully "
+			flash[:notice] = "successfully"
 			redirect_to user_path(current_user.id)
 		else
-			flash[:notice] = "error "
+			flash[:notice] = "error"
 			render :edit
 		end
   end

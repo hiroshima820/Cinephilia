@@ -8,7 +8,4 @@ class User < ApplicationRecord
   validates :name, presence: true
   has_many :watcheds
   has_many :checks
-  def checked_by?(user)
-    checks.where(user_id: user.id).exists?
-  end
 end

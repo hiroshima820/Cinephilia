@@ -1,23 +1,23 @@
 <h1>SEARCH RESULTS FOR "<%= @search_term %>"</h1>
 
 <div>
-  <% if @movie_results.blank? %>
-    <p>Not Found.</p>
-  <% else %>
-    <% @movie_results.each do |movie| %>
-      <div>
+    <% if @movie_results.blank? %>
+        <p>Not Found.</p>
+    <% else %>
+        <% @movie_results.each do |movie| %>
         <div>
-          <%= link_to image_tag("https://image.tmdb.org/t/p/w200#{movie["poster_path"]}", alt: "poster"), movie_path(movie["id"]) %>
-        </div>
-        <p><%= link_to movie['title'], movie_path(movie["id"]) %></p>
-        <div>
-          <% if @watcheds.find_by(tmdb_movie_id: movie["id"]).blank? %>
+            <div>
+            <%= link_to image_tag("https://image.tmdb.org/t/p/w200#{movie["poster_path"]}", alt: "poster"), movie_path(movie["id"]) %>
+            </div>
+            <p><%= link_to movie['title'], movie_path(movie["id"]) %></p>
+            <div>
+            <% if @watcheds.find_by(tmdb_movie_id: movie["id"]).blank? %>
                 <%= link_to "WATCHED", new_movie_watcheds_path(movie["id"]) %>
             <% else %>
                 <%= link_to @watcheds.find_by(tmdb_movie_id: movie["id"]).rate, edit_movie_watcheds_path(movie["id"]) %>
             <% end %>
-        </div>
-        <div>
+            </div>
+            <div>
             <% if @checks.find_by(tmdb_movie_id: movie["id"]).blank? %>
                 <%= link_to "CHECK CREATE", movie_checks_path(movie["id"]), method: :post %>
             <% elsif @checks.find_by(tmdb_movie_id: movie["id"]).prepare.blank? %>
@@ -25,8 +25,8 @@
             <% else %>
                 <%= link_to "CHECK DELETE", movie_checks_path(movie["id"]), method: :delete %>
             <% end %>
+            </div>
         </div>
-      </div>
+        <% end %>
     <% end %>
-  <% end %>
 </div>

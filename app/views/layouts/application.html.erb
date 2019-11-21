@@ -19,17 +19,15 @@
         <%= link_to "SIGN UP", new_user_registration_path %>
         <%= link_to "LOG IN", new_user_session_path %>
         <%= link_to "LOG OUT", destroy_user_session_path, method: :delete %>
-        <p>MY CALENDAR</p>
+        <%= current_user.name %>
       <% elsif admin_signed_in? %>
         <%= link_to "TOP", admins_root_path %>
         <%= link_to "ABOUT", admins_homes_about_path %>
         <%= link_to "USERS", admins_users_path %>
         <%= link_to "LOG OUT", destroy_admin_session_path, method: :delete %>
-        <p>ADD MOVIES</p>
       <% else %>
         <%= link_to "TOP", root_path %>
         <%= link_to "ABOUT", homes_about_path %>
-        <p>MOVIES</p>
         <%= link_to "SIGN UP", new_user_registration_path %>
         <%= link_to "LOG IN", new_user_session_path %>
       <% end %>

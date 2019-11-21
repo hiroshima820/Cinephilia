@@ -1,11 +1,5 @@
 class Movie < ApplicationRecord
-  include ActiveModel::Model 
-  has_many :watcheds
-  has_many :checks
-
-  def judge(movie)
-    checks.where(tmdb_movie_id: movie).exists?
-  end
+  include ActiveModel::Model
 
 	include HTTParty
 

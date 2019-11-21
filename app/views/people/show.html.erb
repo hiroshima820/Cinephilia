@@ -20,19 +20,30 @@
 	<% if @directings.present? %>
 		<p>Directing</p>
 	    <% @directings.each do |directing| %>
-	        <span><%= link_to directing['title'], movie_path(directing['id']) %></span>
+			<div>
+				<%= link_to image_tag("https://image.tmdb.org/t/p/w200#{directing["poster_path"]}", alt: "poster"), movie_path(directing["id"]) %>
+				<p><%= link_to directing['title'], movie_path(directing['id']) %></p>
+			</div>
 	    <% end %>
 	<% end %>
     <% if @writings.present? %>
     	<p>Writing</p>
 		<% @writings.each do |writing| %>
-		    <span><%= link_to writing['title'], movie_path(writing['id']) %></span>
+			<div>
+				<%= link_to image_tag("https://image.tmdb.org/t/p/w200#{writing["poster_path"]}", alt: "poster"), movie_path(writing["id"]) %>
+				<p><%= link_to writing['title'], movie_path(writing['id']) %></p>
+			</div>
+		    
 		<% end %>
 	<% end %>
      <% if @person_works['cast'].present? %>
      	<p>Acting</p>
 		<% @person_works['cast'].each do |acting| %>
-	        <span><%= link_to acting['title'], movie_path(acting['id']) %></span>
+			<div>
+				<%= link_to image_tag("https://image.tmdb.org/t/p/w200#{acting["poster_path"]}", alt: "poster"), movie_path(acting["id"]) %>
+				<p><%= link_to acting['title'], movie_path(acting['id']) %></p>
+				<p><%= acting['character'] %></p>
+			</div>
 	    <% end %>
 	<% end %>
 </div>

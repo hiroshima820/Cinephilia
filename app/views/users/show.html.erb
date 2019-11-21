@@ -1,10 +1,67 @@
 <h1>MY PAGE</h1>
-<p><strong>NAME</strong></p>
-<p><%= @user.name %> 様</p>
-<p><strong>E-MAIL</strong></p>
-<p><%= @user.email %></p>
+<div>
+    <p><strong>NAME</strong></p>
+    <p><%= @user.name %></p>
+    <p><strong>E-MAIL</strong></p>
+    <p><%= @user.email %></p>
+</div>
 
 <% if @user.id = current_user.id %>
-    <%= link_to "EDIT INFOMATION", edit_user_path(current_user.id) %><br>
-    <%= link_to 'CLOSE MY ACCOUNT?', user_path(current_user.id), method: :delete, data: { confirm: 'Are you sure?' }%>
+    <div>
+        <%= link_to "EDIT INFOMATION", edit_user_path(current_user.id) %><br>
+        <%= link_to 'CLOSE ACCOUNT?', user_path(current_user.id), method: :delete, data: { confirm: 'Are you sure?' }%>
+    </div>
 <% end %>
+<div>
+    <h2>WATCHED</h2>
+    <% @watched_movie_ids.each do |id| %>
+        <% movie_info = Movie.details(id) %>
+        <%= link_to image_tag("https://image.tmdb.org/t/p/w200#{movie_info["poster_path"]}", alt: "poster"), movie_path(id) %>
+        <p><%= link_to movie_info["title"], movie_path(id) %></p>
+        <p><%= @watcheds.find_by(tmdb_movie_id: id).review %></p>
+        <% if @user = current_user %>
+            <div>
+                <% if @watcheds.find_by(tmdb_movie_id: id).blank? %>
+                    <%= link_to "WATCHED", new_movie_watcheds_path(id) %>
+                <% else %>
+                    <%= link_to @watcheds.find_by(tmdb_movie_id: id).rate, edit_movie_watcheds_path(id) %>
+                <% end %>
+                </div>
+                <div>
+                <% if @checks.find_by(tmdb_movie_id: id).blank? %>
+                    <%= link_to "CHECK CREATE", movie_checks_path(id), method: :post %>
+                <% elsif @checks.find_by(tmdb_movie_id: id).prepare.blank? %>
+                    <%= link_to "CHECK UPDATE", movie_checks_path(id), method: :patch %>
+                <% else %>
+                    <%= link_to "CHECK DELETE", movie_checks_path(id), method: :delete %>
+                <% end %>
+            </div>
+        <% end %>
+    <% end %>
+</div>
+<div>
+    <h2>CHECK</h2>
+    <% @check_movie_ids.each do |id| %>
+        <% movie_info = Movie.details(id) %>
+        <%= link_to image_tag("https://image.tmdb.org/t/p/w200#{movie_info["poster_path"]}", alt: "poster"), movie_path(id) %>
+        <p><%= link_to movie_info["title"], movie_path(id) %></p>
+        <% if @user = current_user %>
+            <div>
+                <% if @watcheds.find_by(tmdb_movie_id: id).blank? %>
+                    <%= link_to "WATCHED", new_movie_watcheds_path(id) %>
+                <% else %>
+                    <%= link_to @watcheds.find_by(tmdb_movie_id: id).rate, edit_movie_watcheds_path(id) %>
+                <% end %>
+                </div>
+                <div>
+                <% if @checks.find_by(tmdb_movie_id: id).blank? %>
+                    <%= link_to "CHECK CREATE", movie_checks_path(id), method: :post %>
+                <% elsif @checks.find_by(tmdb_movie_id: id).prepare.blank? %>
+                    <%= link_to "CHECK UPDATE", movie_checks_path(id), method: :patch %>
+                <% else %>
+                    <%= link_to "CHECK DELETE", movie_checks_path(id), method: :delete %>
+                <% end %>
+            </div>
+        <% end %>
+    <% end %>
+</div>

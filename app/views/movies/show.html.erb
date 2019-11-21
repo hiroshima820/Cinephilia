@@ -1,7 +1,5 @@
 <p><strong><%= @movie_info['title'] %></p>
-
-
-<%= image_tag "https://image.tmdb.org/t/p/w200#{@movie_info['poster_path']}",  alt: "poster" %>
+<%= image_tag "https://image.tmdb.org/t/p/w200#{@movie_info["poster_path"]}",  alt: "poster" %>
 <div>
     <% if @watched.blank? %>
         <%= link_to "WATCHED", new_movie_watcheds_path(@movie_info["id"]) %>
@@ -34,9 +32,7 @@
 <% end %>
 <% if @videos.present? %>
     <p><strong>VIDEOS</strong></p>
-    <% @videos.each do |video| %>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= video["key"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <% end %>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= @videos.first["key"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <% end %>
 <div>
     <p>
