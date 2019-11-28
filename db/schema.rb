@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_06_071326) do
+ActiveRecord::Schema.define(version: 2019_11_13_112221) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -24,17 +24,15 @@ ActiveRecord::Schema.define(version: 2019_11_06_071326) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "checks", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "tmdb_movie_id"
+    t.boolean "prepare", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "genres", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "movies", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "people", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -53,8 +51,19 @@ ActiveRecord::Schema.define(version: 2019_11_06_071326) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "watcheds", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "tmdb_movie_id"
+    t.integer "rate"
+    t.text "review"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PersonsControllerTest < ActionDispatch::IntegrationTest
+class WatchedTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

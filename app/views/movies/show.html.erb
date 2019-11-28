@@ -1,48 +1,155 @@
-<p><strong><%= @movie_info['title'] %></p>
-
-
-<%= image_tag("https://image.tmdb.org/t/p/w200#{@movie_info['poster_path']}", :alt => 'poster') %>
-<div>
-    <p><strong>RELEASE：</strong><%= @movie_info['release_date'] %></p>
-
-    <p><strong>RUNTIME：</strong><%= @movie_info['runtime'] %>分</p>
-
-    <p>
-        <strong>GENRE：</strong>
-        <% @movie_info['genres'].each do |genre| %>
-            <span><%= genre['name'] %></span>
-        <% end %>
-    </p>
-</div>
-<% if @movie_info['overview'].present? %>
-    <p><strong>OVERVIEW：</strong><%= @movie_info['overview'] %></p>
-<% end %>
-<% if @videos.present? %>
-    <p><strong>VIDEOS</strong></p>
-        <% @videos.each do |video| %>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= video["key"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <% end %>
-<% end %>
-<div>
-    <p>
-        <strong>DIRECTOR</strong>
-        <% @directors.each do |director| %>
-            <p><%= link_to director['name'], person_path(director['id']) %></p>
-        <% end %>
-    </p>
-    <p>
-        <strong>SCREENPLAY</strong>
-        <% @screenplays.each do |screenplay| %>
-            <p><%= link_to screenplay['name'], person_path(screenplay['id']) %></p>
-        <% end %>
-        <% @writers.each do |writer| %>
-            <p><%= link_to writer['name'], person_path(writer['id']) %></p>
-        <% end %>
-    </p>
-    <p>
-        <strong>CAST</strong>
-        <% @casts.each do |cast| %>
-            <p><%= link_to cast['name'], person_path(cast['id']) %></p>
-        <% end %>
-    </p>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <%= image_tag "https://image.tmdb.org/t/p/w200#{@movie_info["poster_path"]}", size: "400x800", alt: "poster", class: "img-responsive" %>
+            <div class="center">
+                <% if @watched.new_record? %>
+                    <%= link_to "WATCHED", new_movie_watcheds_path(@movie_info["id"]), remote: true, class: "btn btn-lg" %>
+                    <%# Watched createのモーダルウィンドウ %>
+                    <div class="modal fade" id="watched-create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <%= form_with model: @watched, local: true, url:movie_watcheds_path(params[:id], method: :post) do |f| %>
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group ">
+                                            <%= f.label :rate, class: "form-control-label" %>
+                                            <%= f.radio_button :rate, :AllTimeBest %>
+                                            <%= f.label(:rate, value: "AllTimeBest") %>
+                                            <%= f.radio_button :rate, :LOVE %>
+                                            <%= f.label(:rate, value: "LOVE") %>
+                                            <%= f.radio_button :rate, :LIKE %>
+                                            <%= f.label(:rate, value: "LIKE") %>
+                                            <%= f.radio_button :rate, :OK %>
+                                            <%= f.label(:rate, value: "OK") %>
+                                            <%= f.radio_button :rate, :DISLIKE %>
+                                            <%= f.label(:rate, value: "DISLIKE") %>
+                                        </div>
+                                        <div class="form-group field">
+                                            <%= f.label :review, class: "form-control-abel" %>
+                                            <%= f.text_field :review, class: "form-control" %>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <%= f.submit "WATCHED!", class:"btn" %>
+                                    </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <%# ここまで %>
+                <% else %>
+                    <%= link_to @watched.rate, edit_movie_watcheds_path(@movie_info["id"]), remote: true, class: "btn btn-lg btn-warning" %>
+                    <%# Watched updateのモーダルウィンドウ %>
+                    <div class="modal fade" id="watched-update-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <%= form_with model: @watched, local: true, url:movie_watcheds_path(params[:id], method: :patch) do |f| %>
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group ">
+                                            <%= f.label :rate, class: "form-control-label" %>
+                                            <%= f.radio_button :rate, :AllTimeBest %>
+                                            <%= f.label(:rate, value: "AllTimeBest") %>
+                                            <%= f.radio_button :rate, :LOVE %>
+                                            <%= f.label(:rate, value: "LOVE") %>
+                                            <%= f.radio_button :rate, :LIKE %>
+                                            <%= f.label(:rate, value: "LIKE") %>
+                                            <%= f.radio_button :rate, :OK %>
+                                            <%= f.label(:rate, value: "OK") %>
+                                            <%= f.radio_button :rate, :DISLIKE %>
+                                            <%= f.label(:rate, value: "DISLIKE") %>
+                                        </div>
+                                        <div class="form-group field">
+                                            <%= f.label :review, class: "form-control-abel" %>
+                                            <%= f.text_field :review, class: "form-control" %>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <%= f.submit "WATCHED!", class:"btn" %>
+                                        <%= link_to  "DELETE!", movie_watcheds_path(params[:id]), method: :delete, data: {confirm: 'Are you sure?'}%>
+                                    </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <%# ここまで %>
+                <% end %>
+            </div>
+            <div class="center">
+                <% if @check.new_record? %>
+                    <%= link_to "CHECK", movie_checks_path(@movie_info["id"]), method: :post, class: "btn btn-lg" %>
+                <% elsif @check.prepare.blank? %>
+                    <%= link_to "CHECK!", movie_checks_path(@movie_info["id"]), method: :patch, class: "btn btn-lg btn-warning" %>
+                <% else %>
+                    <%= link_to "PREPARATION!", movie_checks_path(@movie_info["id"]), method: :delete, class: "btn btn-lg btn-danger" %>
+                <% end %>
+            </div>
+            <div>
+                <p class="h4"><strong>RELEASE：</strong><%= @movie_info['release_date'] %></p>
+                <p class="h4"><strong>RUNNING TIME：</strong><%= @movie_info['runtime'] %>min</p>
+                <p class="h4">
+                    <strong>GENRE：</strong>
+                    <% @movie_info['genres'].each do |genre| %>
+                        <span><%= genre['name'] %></span>
+                    <% end %>
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="h1"><strong><%= @movie_info['title'] %></div>
+            <div>
+                <div class="h3"><strong>DIRECTOR</strong></div>
+                <% @directors.each do |director| %>
+                    <% if director == @directors.last %>
+                        <span class="h4"><%= link_to director['name'], person_path(director['id']) %></span>
+                    <% else %>
+                        <span class="h4"><%= link_to director['name'], person_path(director['id']) %>,</span>
+                    <% end %>
+                <% end %>
+            </div>
+            <div>
+                <div class="h3"><strong>SCREENPLAY</strong></div>
+                <% @screenplays.each do |screenplay| %>
+                    <% if screenplay == @screenplays.last %>
+                        <span class="h4"><%= link_to screenplay['name'], person_path(screenplay['id']) %></span>
+                    <% else %>
+                        <span class="h4"><%= link_to screenplay['name'], person_path(screenplay['id']) %>,</span>
+                    <% end %>
+                <% end %>
+                <% @writers.each do |writer| %>
+                    <% if writer == @writers.last %>
+                        <span class="h4"><%= link_to writer['name'], person_path(writer['id']) %></span>
+                    <% else %>
+                        <span class="h4"><%= link_to writer['name'], person_path(writer['id']) %>,</span>
+                    <% end %>
+                <% end %>
+            </div>
+            <div>
+                <div class="h3"><strong>CAST</strong></div>
+                <% @casts.each do |cast| %>
+                    <% if cast == @casts.last %>
+                        <span class="h4"><%= link_to cast['name'], person_path(cast['id']) %></span>
+                    <% else %>
+                        <span class="h4"><%= link_to cast['name'], person_path(cast['id']) %>,</span>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <% if @movie_info['overview'].present? %>
+        <p class="h4"><strong>OVERVIEW：</strong><%= @movie_info['overview'] %></p>
+    <% end %>
+    <% if @videos.present? %>
+        <p class="h4"><strong>VIDEOS</strong></p>
+        <iframe width="1120" height="630" src="https://www.youtube.com/embed/<%= @videos.first["key"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% end %>
 </div>

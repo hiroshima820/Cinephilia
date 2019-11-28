@@ -1,17 +1,17 @@
-<h1>SEARCH RESULTS FOR "<%= @search_term %>"</h1>
-
-<div>
-  <% if @movie_results.blank? %>
-    <p>Not Found.</p>
-  <% else %>
-    <table border="1">
-      <% @movie_results.each do |movie| %>
-        <tr>
-          <td><%= image_tag("https://image.tmdb.org/t/p/w200#{movie["poster_path"]}", :alt => 'poster') %></td>
-          <td><%= link_to movie['title'], action: 'show', id: "#{movie["id"]}" %></td>
-          <td><%= movie['release_date'] %></td>
-        </tr>
-      <% end %>
-    </table>
-  <% end %>
+<div class="container">
+    <p class="h2">SEARCH RESULTS FOR "<%= @search_term %>"</p>
+    <% if @movie_results.blank? %>
+        <p>Not Found.</p>
+    <% else %>
+        <% @movie_results.each do |movie| %>
+        <div class="inline">
+            <div>
+                <%= link_to image_tag("https://image.tmdb.org/t/p/w200#{movie["poster_path"]}", alt: "poster", class: "img-responsive"), movie_path(movie["id"]) %>
+            </div>
+            <div>
+                <p class="center"><%= link_to movie['title'], movie_path(movie["id"]) %></p>
+            </div>
+        </div>
+        <% end %>
+    <% end %>
 </div>

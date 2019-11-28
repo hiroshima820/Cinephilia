@@ -1,4 +1,6 @@
 class Movie < ApplicationRecord
+  include ActiveModel::Model
+
 	include HTTParty
 
   # default_options.update(verify: false) # disable SSL verification(必要に応じて)
@@ -47,4 +49,10 @@ class Movie < ApplicationRecord
     get("", query: { } ) #パラメタなし
   end
 
+  # トレンドの映画一覧を取得
+  # https://developers.themoviedb.org/3/trending/get-trendingを参照
+  def self.trendings
+    base_uri "https://api.themoviedb.org/3/trending/movie/week"
+    get("", query: { } ) #パラメタなし
+  end
 end
