@@ -14,18 +14,18 @@
     <header>
       <div class="container center-block">
         <% if user_signed_in? %>
-          <%= link_to image_tag("/assets/logo.jpg", size: '150x150'), root_path, class: "h4 nav-menu" %>
+          <%= link_to image_tag("logo.jpg", size: '150x150'), root_path, class: "h4 nav-menu" %>
           <%= link_to "ABOUT", homes_about_path, class: "h4 nav-menu" %>
           <%= link_to "MY PAGE", user_path(current_user.id), class: "h4 nav-menu" %>
           <%= link_to "LOG OUT", destroy_user_session_path, method: :delete, class: "h4 nav-menu" %>
         <% elsif admin_signed_in? %>
-          <%= link_to image_tag("/assets/logo.jpg", size: '150x150'), root_path, class: "h4 nav-menu" %>
+          <%= link_to image_tag("logo.jpg", size: '150x150'), root_path, class: "h4 nav-menu" %>
           <%= link_to "TOP", admins_root_path, class: "h4 nav-menu" %>
           <%= link_to "ABOUT", admins_homes_about_path, class: "h4 nav-menu" %>
           <%= link_to "USERS", admins_users_path, class: "h4 nav-menu" %>
           <%= link_to "LOG OUT", destroy_admin_session_path, method: :delete, class: "h4 nav-menu" %>
         <% else %>
-          <%= link_to image_tag("/assets/logo.jpg", size: '150x150'), root_path, class: "h4 nav-menu" %>
+          <%= link_to image_tag("logo.jpg", size: '150x150'), root_path, class: "h4 nav-menu" %>
           <%= link_to "TOP", root_path, class: "h4 nav-menu" %>
           <%= link_to "ABOUT", homes_about_path, class: "h4 nav-menu" %>
           <%= link_to "SIGN UP", new_user_registration_path, class: "h4 nav-menu" %>
