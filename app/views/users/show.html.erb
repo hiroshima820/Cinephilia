@@ -23,7 +23,6 @@
                     <p class="center"><%= link_to movie_info["title"], movie_path(id) %></p>
                     <p><%= @watcheds.find_by(tmdb_movie_id: id).review %></p>
                     <p class="btn-lg btn-warning"><%= @watcheds.find_by(tmdb_movie_id: id).rate %></p>
-                    
                 </div>
             <% end %>
         </div>
