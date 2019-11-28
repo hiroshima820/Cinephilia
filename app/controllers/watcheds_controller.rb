@@ -1,19 +1,14 @@
 class WatchedsController < ApplicationController
-  def new
-    @watched = Watched.new
-  end
-
   def create
     watched = current_user.watcheds.new(watched_create)
     watched.tmdb_movie_id = params[:movie_id]
-    watched.save!
-    redirect_to movie_path(params[:movie_id])
+    if watched.save
+      redirect_to movie_path(params[:movie_id])
+    else
+      redirect_to movie_path(params[:movie_id])
+    end
   end
-
-  def edit
-    @watched = current_user.watcheds.find_by(tmdb_movie_id: params[:movie_id])
-  end
-
+  
   def update
     watched = current_user.watcheds.find_by(tmdb_movie_id: params[:movie_id])
     watched.update(watched_update)

@@ -12,29 +12,26 @@
 
   <body>
     <header>
-      <% if user_signed_in? %>
-        <%= link_to "TOP", root_path %>
-        <%= link_to "ABOUT", homes_about_path %>
-        <%= link_to "MY PAGE", user_path(current_user.id) %>
-        <%= link_to "SIGN UP", new_user_registration_path %>
-        <%= link_to "LOG IN", new_user_session_path %>
-        <%= link_to "LOG OUT", destroy_user_session_path, method: :delete %>
-        <%= current_user.name %>
-      <% elsif admin_signed_in? %>
-        <%= link_to "TOP", admins_root_path %>
-        <%= link_to "ABOUT", admins_homes_about_path %>
-        <%= link_to "USERS", admins_users_path %>
-        <%= link_to "LOG OUT", destroy_admin_session_path, method: :delete %>
-      <% else %>
-        <%= link_to "TOP", root_path %>
-        <%= link_to "ABOUT", homes_about_path %>
-        <%= link_to "SIGN UP", new_user_registration_path %>
-        <%= link_to "LOG IN", new_user_session_path %>
-      <% end %>
-    </header>
-    <header>
-      <div>
-        <%= form_tag(movies_search_path, method: :get) do %>
+      <div class="container center-block">
+        <% if user_signed_in? %>
+          <%= link_to image_tag("/assets/logo.jpg", size: '150x150'), root_path, class: "h4 nav-menu" %>
+          <%= link_to "ABOUT", homes_about_path, class: "h4 nav-menu" %>
+          <%= link_to "MY PAGE", user_path(current_user.id), class: "h4 nav-menu" %>
+          <%= link_to "LOG OUT", destroy_user_session_path, method: :delete, class: "h4 nav-menu" %>
+        <% elsif admin_signed_in? %>
+          <%= link_to image_tag("/assets/logo.jpg", size: '150x150'), root_path, class: "h4 nav-menu" %>
+          <%= link_to "TOP", admins_root_path, class: "h4 nav-menu" %>
+          <%= link_to "ABOUT", admins_homes_about_path, class: "h4 nav-menu" %>
+          <%= link_to "USERS", admins_users_path, class: "h4 nav-menu" %>
+          <%= link_to "LOG OUT", destroy_admin_session_path, method: :delete, class: "h4 nav-menu" %>
+        <% else %>
+          <%= link_to image_tag("/assets/logo.jpg", size: '150x150'), root_path, class: "h4 nav-menu" %>
+          <%= link_to "TOP", root_path, class: "h4 nav-menu" %>
+          <%= link_to "ABOUT", homes_about_path, class: "h4 nav-menu" %>
+          <%= link_to "SIGN UP", new_user_registration_path, class: "h4 nav-menu" %>
+          <%= link_to "LOG IN", new_user_session_path, class: "h4 nav-menu" %>
+        <% end %>
+        <%= form_tag(movies_search_path, method: :get, class: "h4") do %>
           <%= search_field_tag :looking_for, nil, placeholder: 'Movie titles…' %>
           <%= submit_tag 'SEARCH' %>
         <% end %>

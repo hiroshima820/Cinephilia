@@ -26,10 +26,8 @@ class MoviesController < ApplicationController
       end
     end
     @casts = Movie.credits(params[:id])['cast']
-
-    @watched = current_user.watcheds.find_by(tmdb_movie_id: @movie_info["id"])
-    @check = current_user.checks.find_by(tmdb_movie_id: @movie_info["id"])
-    # @genres = Movie.genres()
+    @watched = current_user.watcheds.find_by(tmdb_movie_id: @movie_info["id"]) || Watched.new
+    @check = current_user.checks.find_by(tmdb_movie_id: @movie_info["id"]) || Check.new
   end
 
 end

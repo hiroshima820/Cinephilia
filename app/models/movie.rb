@@ -49,4 +49,10 @@ class Movie < ApplicationRecord
     get("", query: { } ) #パラメタなし
   end
 
+  # トレンドの映画一覧を取得
+  # https://developers.themoviedb.org/3/trending/get-trendingを参照
+  def self.trendings
+    base_uri "https://api.themoviedb.org/3/trending/movie/week"
+    get("", query: { } ) #パラメタなし
+  end
 end

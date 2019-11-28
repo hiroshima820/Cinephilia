@@ -1,2 +1,15 @@
-<h1>TOP</h1>
-<%= link_to "管理者ログインへ", new_admin_session_path %>
+<div class="container">
+    <h1>TRENDING</h1>
+    <div>
+        <% @trend_movies.each do |movie|%>
+            <div class="inline">
+                <div>
+                    <%= link_to image_tag("https://image.tmdb.org/t/p/w200#{movie["poster_path"]}", alt: "poster", class: "img-responsive"), movie_path(movie["id"]) %>
+                </div>
+                <p class="center">
+                    <%= link_to movie['title'], movie_path(movie["id"]) %>
+                </p>
+            </div>
+        <% end %>
+    </div>
+</div>
